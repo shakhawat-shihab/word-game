@@ -78,11 +78,12 @@ string editData(string ar[],int row)
     //char answer[rows][max_width_of_letter]= {{0}};
     int width=max_width_of_letter*siz;
     int space=maxx-width;
-    int leftSpace=space/2;
+    int leftSpace=space/2.5;
+    leftSpace= leftSpace+(maxx-leftSpace)/2;
     int p=siz,q=siz+siz;
     //int currentPointer[2]=[leftSpace,p];
     int x1=leftSpace;
-    int y1=siz;
+    int y1=siz*2;
     showSquarePointer(x1,y1,4);
     int pos_row=0,pos_col=0;
     int c, ex;
@@ -102,7 +103,7 @@ string editData(string ar[],int row)
         case KEY_UP:
         {
             cout << c << "Up" << endl;//key up
-            if(y1>siz)
+            if(y1>siz*2)
             {
                 //before moving pointer make current pointer white
                 showSquarePointer(x1,y1,7);
@@ -117,7 +118,7 @@ string editData(string ar[],int row)
         case KEY_DOWN:
         {
             cout << c << "Down" << endl;//key down
-            if(y1<rows*siz)
+            if(y1<rows*siz+siz)
             {
                 //before moving pointer make current pointer white
                 showSquarePointer(x1,y1,7);
@@ -237,8 +238,18 @@ void showData(string arr[],int row)
     cout<< "siz "<<siz<<endl;
     int width=max_width_of_letter*siz;
     int space=maxx-width;
-    int leftSpace=space/2;
-    int p=siz,q=siz+siz;
+    int leftSpace=space/2.5;
+    leftSpace= leftSpace+(maxx-leftSpace)/2;
+
+    int p=siz*2,q=p+siz;
+
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
+    outtextxy(leftSpace+60,siz,"Playground");
+
+    int showHintsNumbers=0;
+    // draw dividing line
+//    setcolor(BLUE);
+    line(leftSpace-50,0,leftSpace-50,maxy-130);
     for(int i=0; i<rows; i++)
     {
         string temp=arr[i];
@@ -256,12 +267,22 @@ void showData(string arr[],int row)
                 char text[2] = { temp[j], 0 };
                 settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
                 outtextxy((x1+x2)/2-8,(p+q)/2-8,text);
+
                 /*check if the text is underscore*/
                 if(temp[j]=='_')
                 {
                     setfillstyle (HATCH_FILL, YELLOW);
                     floodfill(x1+1, p+1, WHITE);
                 }
+            }
+            else{
+                showHintsNumbers++;
+                string s=to_string(showHintsNumbers);
+                int n = s.length();
+                char char_array[n + 1];
+                strcpy(char_array, s.c_str());
+                settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+                outtextxy(x2-15,p+8,char_array);
             }
             x1=x1+siz;
             x2=x2+siz;
@@ -361,7 +382,7 @@ main()
 {
     //int gd = DETECT, gm;
     //initgraph(&gd, &gm, "");
-    initwindow(1300,600);
+    initwindow(1350,700);
     maxx=getmaxx();
     maxy=getmaxy();
     int y=0;
@@ -373,11 +394,11 @@ main()
         if(mode=='1')
         {
             cout<<"inside easy mode"<<endl;
-            siz=70;
+            siz=65;
             cleardevice();
-            string problem1[4]= { "l$p_a", "o_$_x", "$et_$", "g$een" };
+            string problem1[4]= { "se$d","$__$","o$ly","pe$_"};
             string problem2[4] = { "lea$n", "_p$or", "___am", "goo$_" };
-            string result1[4]= { "lap_a", "o_o_x", "net_o", "green" };
+            string result1[4]= { "send","t__a","oily","pen_" };
             string result2[4] = { "learn","_poor", "___am", "good_" };
             srand(time(NULL));
             int random=rand()%2;
@@ -410,7 +431,7 @@ main()
         else if(mode=='2')
         {
             cout<<"inside medium mode"<<endl;
-            siz=50;
+            siz=55;
             cleardevice();
             string problem1[7]= {"se$d","$__$","o$ly","pe$_","_$bs","$__$","e$sy"};
             string problem2[7]= {"l$arn","a_t$a","be$_$","$y_b$","r$b$l","__$a_","do$r_"};
@@ -456,7 +477,7 @@ main()
         }
         else if(mode=='3'){
             cout<<"inside hard mode"<<endl;
-            siz=45;
+            siz=50;
             cleardevice();
             string problem1[8]= {"co$re$t","_ba$l_h","c$bg$ai","ot$hv$n", "dui$et$","e$t_n$i","_r___o$","cy$l$ng"};
             string problem2[8]= {"na$u$al","e$am_$o","ice$er$","ge$r__o","hon$st_","bu$le$_","$__l$mb","ro$at$_"};
