@@ -30,7 +30,7 @@ void hints()
 {
     int y=maxy-130;
     int x=0,
-    setcolor(WHITE);
+        setcolor(WHITE);
     line(x,y,maxx,y);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
     outtextxy(x+50,y+20,"Click Arrow to select Box");
@@ -243,12 +243,14 @@ void showData(string arr[],int row)
 
     int p=siz*2,q=p+siz;
 
+    setcolor(BLUE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
     outtextxy(leftSpace+60,siz,"Playground");
 
+    setcolor(WHITE);
     int showHintsNumbers=0;
     // draw dividing line
-//    setcolor(BLUE);
+
     line(leftSpace-50,0,leftSpace-50,maxy-130);
     for(int i=0; i<rows; i++)
     {
@@ -275,7 +277,8 @@ void showData(string arr[],int row)
                     floodfill(x1+1, p+1, WHITE);
                 }
             }
-            else{
+            else
+            {
                 showHintsNumbers++;
                 string s=to_string(showHintsNumbers);
                 int n = s.length();
@@ -349,13 +352,16 @@ void showResult(float answerResult[])
     char char_array[n + 1];
     strcpy(char_array, s.c_str());
     outtextxy(60,maxy/2-150,char_array);
-    if(answerResult[2]>=80){
+    if(answerResult[2]>=80)
+    {
         setcolor(GREEN);
     }
-    else if(answerResult[2]>=50){
+    else if(answerResult[2]>=50)
+    {
         setcolor(BLUE);
     }
-    else{
+    else
+    {
         setcolor(RED);
     }
     string s1="Your accuracy is "+to_string(int(answerResult[2]))+" %";
@@ -371,12 +377,30 @@ void showResult(float answerResult[])
     settextstyle(DEFAULT_FONT, HORIZ_DIR, WHITE);
     outtextxy(70,y+20,"Click Back Space to go Home Page");
 }
-bool playAgain(){
+bool playAgain()
+{
     int key= 0;
-    while(key!=8){
+    while(key!=8)
+    {
         key=getch();
     }
     return true;
+}
+void showHints(string hints[],int n){
+    setcolor(BLUE);
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
+    outtextxy(100,50,"Hints of the Playground");
+    setcolor(WHITE);
+    int x=50,y=120;
+    for(int i=0;i<n;i++){
+        string s1=hints[i];
+        int n1 = s1.length();
+        char char_array1[n1 + 1];
+        strcpy(char_array1, s1.c_str());
+        settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+        outtextxy(x,y,char_array1);
+        y+=40;
+    }
 }
 main()
 {
@@ -400,12 +424,15 @@ main()
             string problem2[4] = { "lea$n", "_p$or", "___am", "goo$_" };
             string result1[4]= { "send","t__a","oily","pen_" };
             string result2[4] = { "learn","_poor", "___am", "good_" };
+            string problem1Hints[5] = {"1. Across -> Transfer Something","2. Down -> Halt of Movement","3. Down -> Time Between Sunrise and Sunset","4. Across -> Covered With Oil","5. Across -> Seed of a Pea Plant"};
+            string problem2Hints[4] = {"1. Across -> Gain Knowledge","2. Across -> People Without Wealth","3. Across -> Morally Right","1+3. Down -> Walking place"};
             srand(time(NULL));
             int random=rand()%2;
             cout<<rand()<<" "<<random<<endl;
             float *answerResult;
             if(random==0)
             {
+                showHints(problem1Hints,5);
                 showData(problem1,4);
                 hints();
                 string answer=editData(problem1,4);
@@ -414,6 +441,7 @@ main()
             }
             else if(random==1)
             {
+                showHints(problem2Hints,4);
                 showData(problem2,4);
                 hints();
                 string answer=editData(problem2,4);
@@ -423,7 +451,8 @@ main()
             cleardevice();
             showResult(answerResult);
             bool isPlayAgain=playAgain();
-            if(isPlayAgain==true){
+            if(isPlayAgain==true)
+            {
                 cleardevice();
                 homePage();
             }
@@ -433,18 +462,22 @@ main()
             cout<<"inside medium mode"<<endl;
             siz=55;
             cleardevice();
-            string problem1[7]= {"se$d","$__$","o$ly","pe$_","_$bs","$__$","e$sy"};
-            string problem2[7]= {"l$arn","a_t$a","be$_$","$y_b$","r$b$l","__$a_","do$r_"};
-            string problem3[7]= {"nu$be$","e_be$n","e_a$ro","d$mon_","_c$r__","_on$__","____$e"};
-            string result1[7]= {"send","t__a","oily","pea_","_abs","b__a","easy"};
+            string problem1[7]= {"h$bit","at$m_","$to$d","vikg$","ec_eo","s___r","t$in_"};
+            string problem2[7]= {"l$arn","a_t$a","be$_$","$y_ba","r$b$l","__$a_","do$r_"};
+            string problem3[7]= {"nu$ber","$_be$n","e_a$ro","d$mon_","_c$r__","_on$__","____$e"};
+            string result1[7]= {"habit","atom_","rtoad","vikgo","ec_eo","s___r","twin_"};
             string result2[7]= {"learn","a_tea","bee_v","ay_ba","rebel","__ia_","door_"};
             string result3[7]= {"number","e_bean","e_afro","demon_","_car_","_one_","___be"};
+            string problem1Hints[6] = {"1. Across -> A Regular Practice", "2. Across -> The Smallest Particle of An Element", "3. Down ! The Process of Gathering Crops", "4. Down ! General Impression of A Person", "5. Down ! A Barrier to An Entrance", "6. Across -> Two Identical Person" };
+            string problem2Hints[9] = {"1. Across -> Gain Knowledge","2. Across -> Refreshing Drink","3. Across -> Small Social Insect","4. Down ! Relating to Navy","5. Down ! Physical Hard Work","6. Down ! Organs of Sight", "7. Down ! Tolerate Something", "8. Down ! Living Organism", "9. Across -> A Barrier to An Entrance"};
+            string problem3Hints[8] = {"1. Across -> A Quantity or Amount", "2. Down ! Necessity of Something", "3. Across -> Edible Seed of A Plant", "4. Down ! Earlier in Time","5. Across -> An Evil Supernatural Being","6. Across -> A Motor Vehicle", "7. Across -> A Single Amount", "8. Across -> Having An Existence"};
             srand(time(NULL));
             int random=rand()%3;
             cout<<rand()<<" "<<random<<endl;
             float *answerResult;
             if(random==0)
             {
+                showHints(problem1Hints,6);
                 showData(problem1,7);
                 hints();
                 string answer=editData(problem1,7);
@@ -453,6 +486,7 @@ main()
             }
             else if(random==1)
             {
+                showHints(problem2Hints,9);
                 showData(problem2,7);
                 hints();
                 string answer=editData(problem2,7);
@@ -461,6 +495,7 @@ main()
             }
             else if(random==2)
             {
+                showHints(problem3Hints,8);
                 showData(problem3,7);
                 hints();
                 string answer=editData(problem3,7);
@@ -470,27 +505,34 @@ main()
             cleardevice();
             showResult(answerResult);
             bool isPlayAgain=playAgain();
-            if(isPlayAgain==true){
+            if(isPlayAgain==true)
+            {
                 cleardevice();
                 homePage();
             }
         }
-        else if(mode=='3'){
+        else if(mode=='3')
+        {
             cout<<"inside hard mode"<<endl;
             siz=50;
             cleardevice();
-            string problem1[8]= {"co$re$t","_ba$l_h","c$bg$ai","ot$hv$n", "dui$et$","e$t_n$i","_r___o$","cy$l$ng"};
-            string problem2[8]= {"na$u$al","e$am_$o","ice$er$","ge$r__o","hon$st_","bu$le$_","$__l$mb","ro$at$_"};
-            string problem3[8]= {"nu$be$","e_be$n","e_a$ro","d$mon_","_c$r__","_on$__","____$e"};
+            string problem1[8]= {"co$rect","_ba$l_h","c$bg$ai","ot$hv$n", "duitet$","e$t_nii","_r___on","cy$ling"};
+            string problem2[8]= {"natu$al","e$am_$o","ice$er$","ge$r__o","hon$st_","bu$ler_","$__l$mb","ro$ate_"};
+            string problem3[8]= {"Hea$ing","oa$h_o_","$rt_j$b","e$ev$n_","lyn____","a_d_m$g","n___$sk","dec$de_"};
             string result1[8]= {"correct","_bail_h","cibgeai","otbhvcn", "duitetk","eat_nii","_r___on","cycling"};
-            string result2[8]= {"h$al$ng","oa$h_o_","$rt_j$b","el$v$n_","$yn____","a_d_m$g","n___$sk","d$c$de_"};
+            string result2[8]= {"natural","exam_io","iceberg","gear__o","honest_","butler_","o__lamb","rotate_"};
             string result3[8]= {"healing","oath_o_","mrt_job","eleven_","lyn____","axd_mug","n___ask","decade_"};
+
+            string problem1Hints[9] = {"1. Across -> Free From Mistakes", "2. Down ! Correct As A Fact", "3. Down ! A Notice of Death", "4. Down ! One More Than Ten", "5. Down ! A Small Plant Eating Animal", "6. Down ! A State of Being Active", "7. Down ! Be Capable of Conscious Thought", "8. Across -> Consume Something for Energy", "9. Across -> The Act of Riding A Cycle" };
+            string problem2Hints[11] = {"1. Across -> something from nature", "2. Across -> A Test of Knowledge", "3. Down ! Means of Breathing", "4. Across -> a large floating mass of ice", "5. Down ! An Identifying Symbol", "6. Across -> Equipment for Particular Purpose", "7. Across -> Without Pretensions", "8. Across -> Chief Male Servant of A House", "9. Down ! A Person Living Next Door", "10. Down ! Somewhere to Sit On", "11. Across -> Moving in A Circle"};
+            string problem3Hints[9] = {"1. Across -> The Process of Being Healthy", "2. Across -> A Solemn Promise", "3. Down ! The Native Land", "4. Across -> A Task or Piece of Work", "5. Down ! Before The Expected Time", "6. Across -> One More Than Ten", "7. Across -> A Drinking Cup", "8. Down ! Angry About Something", "9. Across -> A Period of Ten Years"};
             srand(time(NULL));
             int random=rand()%3;
             cout<<rand()<<" "<<random<<endl;
             float *answerResult;
             if(random==0)
             {
+                showHints(problem1Hints,9);
                 showData(problem1,8);
                 hints();
                 string answer=editData(problem1,8);
@@ -499,6 +541,7 @@ main()
             }
             else if(random==1)
             {
+                showHints(problem2Hints,11);
                 showData(problem2,8);
                 hints();
                 string answer=editData(problem2,8);
@@ -507,6 +550,7 @@ main()
             }
             else if(random==2)
             {
+                showHints(problem3Hints,9);
                 showData(problem3,8);
                 hints();
                 string answer=editData(problem3,8);
@@ -516,7 +560,8 @@ main()
             cleardevice();
             showResult(answerResult);
             bool isPlayAgain=playAgain();
-            if(isPlayAgain==true){
+            if(isPlayAgain==true)
+            {
                 cleardevice();
                 homePage();
             }
