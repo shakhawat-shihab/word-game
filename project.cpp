@@ -296,6 +296,120 @@ void showData(string arr[],int row)
     cout<<"inside sow data "<<endl;
 }
 
+void showDataAfterSubmit(string arr[],string result[],string ans[],int row)
+{
+    //size_t rows = sizeof(arr);
+    //cleardevice();
+    int rows=row;
+    int max_width_of_letter=maxLengthOfWord(arr,row);
+    cout<< "siz "<<siz<<endl;
+    int width=max_width_of_letter*siz;
+    int space=maxx-width;
+    int leftSpace=space/2.5;
+    leftSpace= leftSpace+(maxx-leftSpace)/2;
+
+    int p=siz*2,q=p+siz;
+
+    setcolor(BLUE);
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
+    outtextxy(leftSpace+60,siz,"Playground");
+
+    setcolor(WHITE);
+    int showHintsNumbers=0;
+    // draw dividing line
+
+    line(leftSpace-50,0,leftSpace-50,maxy-130);
+    for(int i=0; i<rows; i++)
+    {
+        string temp=arr[i];
+        int x1=leftSpace,x2=leftSpace+siz;
+        for(int j=0; j<temp.length(); j++)
+        {
+            line(x1,p,x2,p);
+            line(x1,p,x1,q);
+            line(x1,q,x2,q);
+            line(x2,p,x2,q);
+            //The third parameter of the outtextxy function
+            // must be a pointer to a nul-terminated character string (or char array),
+            if(temp[j]!='$')
+            {
+                char text[2] = { temp[j], 0 };
+                settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+                outtextxy((x1+x2)/2-8,(p+q)/2-8,text);
+
+                /*check if the text is underscore*/
+                if(temp[j]=='_')
+                {
+                    setfillstyle (HATCH_FILL, YELLOW);
+                    floodfill(x1+1, p+1, WHITE);
+                }
+            }
+            else
+            {
+                showHintsNumbers++;
+                string s=to_string(showHintsNumbers);
+                int n = s.length();
+                char char_array[n + 1];
+                strcpy(char_array, s.c_str());
+                settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+                outtextxy(x2-15,p+8,char_array);
+
+                //ekane amr letter dekhabo
+                if(ans[i][j]==result[i][j])
+                {
+                    setfillstyle(SOLID_FILL,GREEN);
+                    circle(x2-12,q-12,7);
+                    floodfill(x2-12,q-12,WHITE);
+                    int letter=ans[i][j];
+                    char text[2] = { letter, 0 };
+                    settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+                    outtextxy(x1+siz/2-8,p+siz/2-8,text);
+                    setcolor(WHITE);
+                }
+                else
+                {
+                    setfillstyle(SOLID_FILL,RED);
+                    circle(x2-12,q-12,7);
+                    floodfill(x2-12,q-12,WHITE);
+                    if(ans[i][j]!='$')
+                    {
+                        if(ans[i][j]!='$')
+                        {
+                            int letter=ans[i][j];
+                            char text[2] = { letter, 0 };
+                            settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+                            outtextxy(x1+siz/2-8,p+siz/2-8,text);
+                        }
+                    }
+                    setcolor(WHITE);
+                }
+
+            }
+            x1=x1+siz;
+            x2=x2+siz;
+        }
+        p=p+siz;
+        q=q+siz;
+    }
+    cout<<"inside sow data "<<endl;
+}
+//
+//
+//string* answer1Dto2D(string answer,int rows,int max_length_of_word)
+//{
+//    string ans[rows];
+//    for(int i=0,row=0,col=0; i<answer.length(); i++)
+//    {
+//        char letter=answer[i];
+//        if(i!=0 && i%max_length_of_word==0)
+//        {
+//            row++;
+//            col=0;
+//        }
+//        ans[row][col]=letter;
+//        col++;
+//    }
+//}
 float *checkAnswer(string problem[],string result[],string answer,int rows)
 {
     cleardevice();
@@ -309,9 +423,12 @@ float *checkAnswer(string problem[],string result[],string answer,int rows)
             row++;
             col=0;
         }
-        ans[row][col]=letter;
+        ans[row]+=letter;
         col++;
     }
+//    string *ans;
+//    ans=answer1Dto2D(answer,rows,max_length_of_word);
+
     float *q = new float[3];
     int emptySpace=0;
     int correctAnswer=0;
@@ -344,14 +461,17 @@ float *checkAnswer(string problem[],string result[],string answer,int rows)
 
 void showResult(float answerResult[])
 {
-    cout<<"Itsghcschgdvhsb "<< answerResult[0] <<endl;
+    setcolor(BLUE);
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 4);
+    outtextxy(250,50,"Result");
+    //cout<<"Itsghcschgdvhsb "<< answerResult[0] <<endl;
     setcolor(WHITE);
-    settextstyle(DEFAULT_FONT, HORIZ_DIR,3 );
-    string s="You Made "+to_string(int(answerResult[1]))+ " answer correct out of "+ to_string(int(answerResult[0])) ;
+    settextstyle(EUROPEAN_FONT, HORIZ_DIR,4 );
+    string s="You Made  "+to_string(int(answerResult[1]))+ "  answer correct out of  "+ to_string(int(answerResult[0])) ;
     int n = s.length();
     char char_array[n + 1];
     strcpy(char_array, s.c_str());
-    outtextxy(60,maxy/2-150,char_array);
+    outtextxy(60,170,char_array);
     if(answerResult[2]>=80)
     {
         setcolor(GREEN);
@@ -368,7 +488,7 @@ void showResult(float answerResult[])
     int n1 = s1.length();
     char char_array1[n1 + 1];
     strcpy(char_array1, s1.c_str());
-    outtextxy(60,maxy/2-100,char_array1 );
+    outtextxy(60,230,char_array1 );
 
 
     int y=maxy-130;
@@ -386,13 +506,15 @@ bool playAgain()
     }
     return true;
 }
-void showHints(string hints[],int n){
+void showHints(string hints[],int n)
+{
     setcolor(BLUE);
     settextstyle(DEFAULT_FONT, HORIZ_DIR, 3);
     outtextxy(100,50,"Hints of the Playground");
     setcolor(WHITE);
     int x=50,y=120;
-    for(int i=0;i<n;i++){
+    for(int i=0; i<n; i++)
+    {
         string s1=hints[i];
         int n1 = s1.length();
         char char_array1[n1 + 1];
@@ -438,6 +560,22 @@ main()
                 string answer=editData(problem1,4);
                 answerResult= checkAnswer(problem1,result1,answer,4);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem1,4);
+                string ans[4];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                showDataAfterSubmit(problem1,result1,ans,4);
+                showResult(answerResult);
             }
             else if(random==1)
             {
@@ -447,9 +585,25 @@ main()
                 string answer=editData(problem2,4);
                 answerResult= checkAnswer(problem2,result2,answer,4);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem2,4);
+                string ans[4];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                cout<< "ans "<<ans[0]<<endl;
+                cout<<"problem "<<problem2[0]<<endl;
+                showDataAfterSubmit(problem2,result2, ans,4);
+                showResult(answerResult);
             }
-            cleardevice();
-            showResult(answerResult);
             bool isPlayAgain=playAgain();
             if(isPlayAgain==true)
             {
@@ -483,6 +637,22 @@ main()
                 string answer=editData(problem1,7);
                 answerResult= checkAnswer(problem1,result1,answer,7);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem1,7);
+                string ans[7];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                showDataAfterSubmit(problem1,result1, ans,7);
+                showResult(answerResult);
             }
             else if(random==1)
             {
@@ -492,6 +662,22 @@ main()
                 string answer=editData(problem2,7);
                 answerResult= checkAnswer(problem2,result2,answer,7);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem2,7);
+                string ans[7];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                showDataAfterSubmit(problem2,result2, ans,7);
+                showResult(answerResult);
             }
             else if(random==2)
             {
@@ -501,9 +687,24 @@ main()
                 string answer=editData(problem3,7);
                 answerResult= checkAnswer(problem3,result3,answer,7);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem3,7);
+                string ans[7];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                showDataAfterSubmit(problem3,result3, ans,7);
+                showResult(answerResult);
             }
-            cleardevice();
-            showResult(answerResult);
+
             bool isPlayAgain=playAgain();
             if(isPlayAgain==true)
             {
@@ -518,7 +719,7 @@ main()
             cleardevice();
             string problem1[8]= {"co$rect","_ba$l_h","c$bg$ai","ot$hv$n", "duitet$","e$t_nii","_r___on","cy$ling"};
             string problem2[8]= {"natu$al","e$am_$o","ice$er$","ge$r__o","hon$st_","bu$ler_","$__l$mb","ro$ate_"};
-            string problem3[8]= {"Hea$ing","oa$h_o_","$rt_j$b","e$ev$n_","lyn____","a_d_m$g","n___$sk","dec$de_"};
+            string problem3[8]= {"hea$ing","oa$h_o_","$rt_j$b","e$ev$n_","lyn____","a_d_m$g","n___$sk","dec$de_"};
             string result1[8]= {"correct","_bail_h","cibgeai","otbhvcn", "duitetk","eat_nii","_r___on","cycling"};
             string result2[8]= {"natural","exam_io","iceberg","gear__o","honest_","butler_","o__lamb","rotate_"};
             string result3[8]= {"healing","oath_o_","mrt_job","eleven_","lyn____","axd_mug","n___ask","decade_"};
@@ -538,6 +739,22 @@ main()
                 string answer=editData(problem1,8);
                 answerResult= checkAnswer(problem1,result1,answer,8);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem1,8);
+                string ans[8];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                showDataAfterSubmit(problem1,result1, ans,8);
+                showResult(answerResult);
             }
             else if(random==1)
             {
@@ -547,6 +764,22 @@ main()
                 string answer=editData(problem2,8);
                 answerResult= checkAnswer(problem2,result2,answer,8);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem2,8);
+                string ans[8];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                showDataAfterSubmit(problem2,result2, ans,8);
+                showResult(answerResult);
             }
             else if(random==2)
             {
@@ -556,9 +789,23 @@ main()
                 string answer=editData(problem3,8);
                 answerResult= checkAnswer(problem3,result3,answer,8);
                 cout<<"accuracy :" << answerResult[2]<<endl;
+
+                int max_length_of_word=maxLengthOfWord(problem3,8);
+                string ans[8];
+                for(int i=0,row=0,col=0; i<answer.length(); i++)
+                {
+                    char letter=answer[i];
+                    if(i!=0 && i%max_length_of_word==0)
+                    {
+                        row++;
+                        col=0;
+                    }
+                    ans[row]+=letter;
+                    col++;
+                }
+                showDataAfterSubmit(problem3,result3, ans,8);
+                showResult(answerResult);
             }
-            cleardevice();
-            showResult(answerResult);
             bool isPlayAgain=playAgain();
             if(isPlayAgain==true)
             {
